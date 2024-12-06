@@ -21,9 +21,9 @@ def download_youtube_media(url, output_type='mp4', output_path='.'):
         
         # Modify options based on desired output type
         if output_type.lower() == 'mp4':
-            # Specifically target MP4 video
+            # Specifically target full video with both audio and video
             ydl_opts.update({
-                'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
+                'format': 'bestvideo+bestaudio/best',
                 'merge_output_format': 'mp4',
             })
         elif output_type.lower() == 'mp3':
