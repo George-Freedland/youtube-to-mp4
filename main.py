@@ -17,18 +17,24 @@ def download_youtube_media(url, output_type='mp4', output_path='.'):
         # Configuration for yt-dlp
         ydl_opts = {
             'outtmpl': os.path.join(output_path, '%(title)s.%(ext)s'),
-            'format': 'bestvideo+bestaudio/best' if output_type == 'mp4' else 'bestaudio/best',
         }
         
         # Modify options based on desired output type
-        if output_type.lower() == 'mp3':
+        if output_type.lower() == 'mp4':
+            # Specifically target MP4 video
             ydl_opts.update({
+                'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
+                'merge_output_format': 'mp4',
+            })
+        elif output_type.lower() == 'mp3':
+            # Audio-only MP3 conversion
+            ydl_opts.update({
+                'format': 'bestaudio/best',
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
                     'preferredcodec': 'mp3',
                     'preferredquality': '192',
                 }],
-                'format': 'bestaudio/best'
             })
         
         # Download using yt-dlp
