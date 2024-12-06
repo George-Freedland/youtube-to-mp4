@@ -27,14 +27,19 @@ def download_youtube_media(url, output_type='mp4', output_path='.'):
                 'merge_output_format': 'mp4',
             })
         elif output_type.lower() == 'mp3':
-            # Audio-only MP3 conversion
+            # Audio-only MP3 conversion with highest quality
             ydl_opts.update({
-                'format': 'bestaudio/best',
+                'format': 'bestaudio/best', # Select best quality audio
                 'postprocessors': [{
-                    'key': 'FFmpegExtractAudio',
-                    'preferredcodec': 'mp3',
-                    'preferredquality': '192',
+                    'key': 'FFmpegExtractAudio', # Convert to audio
+                    'preferredcodec': 'mp3', # Specify MP3
+                    'preferredquality': '0', # Highest quality (0-9, 0 is best)
                 }],
+                'audioformat': 'mp3', # Ensure MP3 format
+                'postprocessor_args': [
+                    '-acodec', 'libmp3lame', # Use high-quality LAME encoder
+                    '-b:a', '320k' # Maximum bitrate (320 kbps)
+                ],
             })
         
         # Download using yt-dlp
